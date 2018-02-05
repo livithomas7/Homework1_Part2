@@ -1,7 +1,7 @@
 require 'rock_paper_scissors'
 require 'byebug'
 
-#describe RockPaperScissors, :pending => true do
+
 describe RockPaperScissors do
   before(:each) do
     @rock = ['Armando','R'] ; @paper = ['Dave','P'] ; @scissors = ['Sam','S']
@@ -40,5 +40,20 @@ describe RockPaperScissors do
       ]
       expect(RockPaperScissors.tournament_winner(tourney)).to eq(['Richard', 'R'])
     end
+  end
+    describe 'tournament' do
+      it "should raise NoSuchStrategyError if strategy isn't R, P, or S" do
+        tourney = [
+          [
+            [ ['Armando','D'], ['Dave','R'] ],      
+            [ ['Sam','S'], ["Bob", "R"] ]
+          ],
+          [
+            [ ["Katy", "P"], ["Brian", "S"] ],
+            [ ["Lily", "R"], ["Billy", "S"] ]
+          ]
+        ]
+        expect(lambda { RockPaperScissors.winner(@rock, ['Armando', 'D']) }).to raise_error(RockPaperScissors::NoSuchStrategyError, "Strategy must be one of R,P,S")
+      end
   end
 end

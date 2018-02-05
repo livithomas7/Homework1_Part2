@@ -10,18 +10,6 @@ module FunWithStrings
      word[s] += 1
     end
       word
-     
-     #words = Hash.new
-
-    #self.downcase.gsub(/[^a-z\s]/,'').split.each do |w|
-
-     # if words[w] != nil
-      #  words[w] += 1
-      #else
-       # words[w] = 1
-      #end
-    #end
-    #words
   end
   
   def anagram_groups

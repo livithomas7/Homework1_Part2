@@ -11,7 +11,6 @@ class Dessert
   def delicious?
     true
   end
-
 end
 
 class JellyBean < Dessert
