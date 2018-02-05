@@ -1,5 +1,72 @@
 Description of all tests
 ######################################################################
+                            Part 1
+The purpose of the tests for the rock_paper_scissors portion of the
+assignment is to first test the accuracy of rock vs. paper vs. 
+scissors, to test the winning player if they use the same strategy,
+and to test for an incorrect strategy that deters from rock, paper,
+or scissors. The first test tests that rock wins over scissors. Then,
+another test test that scissors wins over paper. An additional test
+tests that paper wins over rock. If the same strategy is played, a
+test tests that the first inputted player is the winner. If a strategy
+is played other than R, P or S, a test tests that an error is raised
+that there is no such strategy. The second portion of the test tests
+the tournament portion of the code, which works through recursion. The
+primary test within the tournament case tests a base case for the 
+recursion where paper wins over rock. Then, it more intensely tests 8 
+total players for an overall winner. The winner of each tournament 
+array competes against each other, and then the final winner is the 
+overall winner. In this case, Richard wins overall with using the rock 
+strategy. 
+
+                            Part 2
+The additional test code is similar to the original test code's 
+tournament test. However, it uses different names and strategies to 
+test the recursive process. Also, it additionally tests the exception
+of two players or more players using the same strategy, where the first 
+player wins in that case. Lastly, it tests the recursive process for 
+using the wrong strategy and raising an error. 
+For this specific test, the winner is as follows:
+
+                            First Array
+                        1. Dave, P > Hugo, R 
+                        2. Bob, R > Sam, S
+                        3. Dave, P > Bob, R
+                        First Winner ==> Dave, P
+                        
+                            Second Array
+                        1. Brian, S > Katy, P 
+                        2. Lily, R > Billy, R
+                        3. Lily, R > Brian, S
+                        Second Winner ==> Lily, R
+                        
+                            Final Array
+                        1.Dave, P > Lily, R
+                        FINAL WINNER ==> Dave, P
+                        
+For the next test, it tests the usage of players using the same 
+strategy multiple times as follows:
+
+                            First Array
+                        1. Armando, R > Dave, R 
+                        2. Bob, R > Sam, S
+                        3. Armando, R > Bob, R
+                        First Winner ==> Armando, R
+                        
+                            Second Array
+                        1. Brian, S > Katy, P 
+                        2. Lily, R > Billy, R
+                        3. Lily, R > Brian, S
+                        Second Winner ==> Lily, R
+                        
+                            Final Array
+                        1.Armando, R > Lily, R
+                        FINAL WINNER ==> Armando, R
+                        
+For the final test, the first player and choice are "Armando"
+and "D". This raises an error since the choice is does not include
+any of the strategies R, P, or S. And the tournament cannot be 
+completed since there is an incorrect strategy choice. 
 
 ######################################################################
 
@@ -52,13 +119,13 @@ end
 ############################################################################################################################################################
 
 Part 2. Additional Test Code
-################################################################################
+####################################################################################################################################################################
 describe RockPaperScissors do
   describe 'tournament' do
       it 'recursive case' do
         tourney = [
           [
-            [ ["Armando","R"], ["Dave","P"] ],      
+            [ ["Hugo","R"], ["Dave","P"] ],      
             [ ["Sam","S"], ["Bob", "R"] ]
           ],
           [
@@ -71,4 +138,36 @@ describe RockPaperScissors do
   end
 end
 
-################################################################################
+ describe 'tournament' do
+      it 'recursive case' do
+        tourney = [
+          [
+            [ ['Armando','R'], ['Dave','R'] ],      
+            [ ['Sam','S'], ["Bob", "R"] ]
+          ],
+          [
+            [ ["Katy", "P"], ["Brian", "S"] ],
+            [ ["Lily", "R"], ["Billy", "S"] ]
+          ]
+        ]
+        expect(RockPaperScissors.tournament_winner(tourney)).to eq(['Armando','R'])
+      end
+  end
+
+  describe 'tournament' do
+      it "should raise NoSuchStrategyError if strategy isn't R, P, or S" do
+        tourney = [
+          [
+            [ ['Armando','D'], ['Dave','R'] ],      
+            [ ['Sam','S'], ["Bob", "R"] ]
+          ],
+          [
+            [ ["Katy", "P"], ["Brian", "S"] ],
+            [ ["Lily", "R"], ["Billy", "S"] ]
+          ]
+        ]
+        expect(lambda { RockPaperScissors.winner(@rock, ['Armando', 'D']) }).to raise_error(RockPaperScissors::NoSuchStrategyError, "Strategy must be one of R,P,S")
+      end
+  end
+end
+####################################################################################################################################################################

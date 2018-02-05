@@ -42,10 +42,10 @@ describe RockPaperScissors do
     end
   end
     describe 'tournament' do
-      it 'recursive case' do
+      it "should raise NoSuchStrategyError if strategy isn't R, P, or S" do
         tourney = [
           [
-            [ ['Armando','R'], ['Dave','P'] ],      
+            [ ['Armando','D'], ['Dave','R'] ],      
             [ ['Sam','S'], ["Bob", "R"] ]
           ],
           [
@@ -53,7 +53,7 @@ describe RockPaperScissors do
             [ ["Lily", "R"], ["Billy", "S"] ]
           ]
         ]
-        expect(RockPaperScissors.tournament_winner(tourney)).to eq(['Dave','P'])
+        expect(lambda { RockPaperScissors.winner(@rock, ['Armando', 'D']) }).to raise_error(RockPaperScissors::NoSuchStrategyError, "Strategy must be one of R,P,S")
       end
   end
 end
