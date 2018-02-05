@@ -1,0 +1,196 @@
+Description of all tests
+######################################################################
+                        Part 1. Palindromes 
+The original test code first tests a simple string for whether or not
+it is a palindrome. A palindrome is the same string whether or not it
+is in its original position or whether it is reversed. The first test 
+analyzes two strings to test whether or not it is a palindrome. The 
+first string of "redivider" should be a palindrome and the second 
+string of "abracadabra" should not be. The second test tests for case 
+sensitivity. Although the string of "ReDivider" has a capital letter, 
+it should be read as a lower-case letter and returns true for the 
+palindrome test.The final test tests for a palindrome, while ignoring
+nonword letters. The first sting tested is 
+"A man, a plan, a canal -- Panama", the punctuation and capital letters
+are ignored and the return is true for a palindrome. The same case goes
+for the next string test of "Madam, I'm Adam!". 
+
+                        Part 2. Palindromes
+The additional test code builds on to the original test code in that
+it tests similarly but with different strings. The simple string test
+tests "racecar" and "plop" to be a palindrome; the string "racecar"
+is returned true and "plop" is returned false. The case-sensitive test
+tests "KaYaK" to be a palindrome, while ignoring any capital letters.
+The string is returned as true for a palindrome. The next test ignores
+any nonword characters for the strings of "God, Art! Name no pup 
+“One Mantra Dog.”" and "Go hang a salami, I’m a lasagna hog.", while 
+also testing for case-sensitivity. Both strings are palindromes and the
+test case should return true. An additional test tests "racecar" to be a 
+palindrome by using the .reverse command. If the .reverse command returns
+the same string of "racecar", then it is a palindrome.
+
+                        Part 1. Word Count
+Word count tests the number of times a word is used in a string. The first
+test tests for a string to be a hash, in this case the string is "now is 
+the time". The string is a hash and returns true. The next test tests a 
+simple string of "Doo bee doo bee doo" for the number of time a word 
+repeats and should return {'doo' => 3, 'bee' => 2}. The next test tests
+for a word count that ignores punctuation for the string of "A man, a 
+plan, a canal -- Panama!" and should return {'man' => 1, 'plan' => 1, 
+'canal' => 1, 'a' => 3, 'panama' => 1}. The next test tests an empty 
+string and it should return {}. The next test tests to ignore leading
+whitespace with the string "  toucan" and should return {'toucan' => 1 }.
+Finally, the last test tests to ignore embedded whitespace in the string
+"four   four  \n four \t four!" and returns {'four' => 4}.
+
+                        Part 2. Word Count
+The additional testing tests similarly to the original test code. Such as
+in the string "bob is blue" should be a hash. Also, the string "bob billy 
+bob billy bob" should return {'bob' => 3, 'billy' => 2}. Another test 
+allows for the testing of both the ignoring of punctuation and case in
+one line for the string "to the East! the East I go.", the counter should
+count the words as follows: {'to' => 1, 'the' => 2, 'east' => 2, 'i' => 1,
+'go' => 1}. However, the final tests alternates from the original code in 
+that it tests for both leading whitespace and embedded whitespace in one 
+line with the string 
+" dog   dog  \n dog \t dog ! " and should return {'dog' => 4}.
+
+                        Part 1. Anagrams
+The original test code tests for anagrams. Anagrams are distinctly separate 
+words with the same letters such as cars or scar. The test case tests for
+and empty string that returns []. The next test tests that the inputted 
+values are returned as an array of arrays by using the line of code 
+"'x'.anagram_groups.each { |element| expect(element).to be_an Array }". 
+Finally, the last test tests the string "scream cars for four scar creams", 
+and should return an array of elements that are anagrams. In this case, 
+the returned array should be [["cars" "scar"], ["four"], ["for"], 
+["creams" "scream"]].
+
+                        Part 2. Anagrams
+The additional test code tests for another string of possible anagrams, 
+while also testing for the ignoring of uppercase letters. The string of
+"rAce the acrE to care" should return the array of [["acre" "care" 
+"race"], ["the"], ["to"]].
+
+######################################################################
+
+Part 1. Original Test Code
+###################################################################################################################################
+require 'fun_with_strings'
+require 'byebug'
+
+describe 'palindrome detection' do
+  it 'should work for simple strings' do
+    expect('redivider').to  be_a_palindrome
+    expect('abracadabra').not_to  be_a_palindrome
+  end
+  it 'should be case-insensitive' do
+    expect('ReDivider').to be_a_palindrome
+  end
+  it 'should ignore nonword characters' do
+    expect('A man, a plan, a canal -- Panama').to be_a_palindrome
+    expect("Madam, I'm Adam!").to be_a_palindrome
+  end    
+end
+
+describe 'word count' do
+  it 'should return a hash' do
+    expect('now is the time'.count_words).to be_a_kind_of Hash
+  end
+  it 'works on simple strings' do
+    expect('Doo bee doo bee doo'.count_words).to eq({'doo' => 3, 'bee' => 2})
+  end
+  it 'ignores punctuation' do
+    expect('A man, a plan, a canal -- Panama!'.count_words).to eq({'man' => 1, 'plan' => 1, 'canal' => 1, 'a' => 3, 'panama' => 1})
+  end
+  it 'works on the empty string' do
+    expect(''.count_words).to eq({})
+  end
+  it 'ignores leading whitespace' do
+    expect("  toucan".count_words).to eq({'toucan' => 1 })
+  end
+  it 'ignores embedded whitespace' do
+    expect("four   four  \n four \t four!".count_words).to eq({'four' => 4})
+  end
+end
+
+describe 'anagram grouping' do
+  describe 'sanity checks' do
+    it 'should work on the empty string' do
+      expect(''.anagram_groups).to eq([])
+    end
+    it 'should return an array of arrays for nonempty string' do
+      'x'.anagram_groups.each { |element| expect(element).to be_an Array }
+    end
+  end
+  it 'for "scream cars for four scar creams"' do
+    @anagrams =  'scream cars for four scar creams'.anagram_groups
+    @anagrams.each { |group| group.sort! }
+    [%w(cars scar), %w(four), %w(for), %w(creams scream)].each do |group|
+        expect(@anagrams).to include(group)
+    end
+  end
+end
+#########################################################################################################################################
+
+Part 2. Additional Test Code
+#########################################################################################################################################
+require 'fun_with_strings'
+require 'byebug'  
+
+describe 'palindrome detection' do
+  it "simple strings" do
+    expect('racecar').to  be_a_palindrome
+    expect('plop').not_to  be_a_palindrome
+  end
+  it "case-insensitive" do
+    expect('KaYaK').to be_a_palindrome
+  end
+  it "ignore other nonword characters" do
+    expect('God, Art! Name no pup “One Mantra Dog.”').to be_a_palindrome
+    expect("Go hang a salami, I’m a lasagna hog.").to be_a_palindrome
+  end   
+  it "test" do
+    if "racecar".reverse == "racecar"
+      true
+    else
+      false
+    end
+  end
+end
+
+
+describe 'word count' do
+  it 'returns a hash' do
+    expect('bob is blue'.count_words).to be_a_kind_of Hash
+  end
+  it 'works on simple strings' do
+    expect('bob billy bob billy bob'.count_words).to eq({'bob' => 3, 'billy' => 2})
+  end
+  it 'ignores punctuation and case' do
+    expect('to the East! the East I go.'.count_words).to eq({'to' => 1, 'the' => 2, 'east' => 2, 'i' => 1, 'go' => 1})
+  end
+   it 'ignores any whitespace' do
+    expect(" dog   dog  \n dog \t dog ! ".count_words).to eq({'dog' => 4})
+  end
+end
+
+describe 'anagram grouping and case' do
+  describe 'sanity checks' do
+    it 'empty string' do
+      expect(''.anagram_groups).to eq([])
+    end
+    it 'array of arrays for nonempty string' do
+      'x'.anagram_groups.each { |element| expect(element).to be_an Array }
+    end
+  end
+  it 'for "rAce the acrE to care"' do
+    @anagrams =  'rAce the acrE to care'.anagram_groups
+    @anagrams.each { |group| group.sort! }
+    [%w(acre care race), %w(the), %w(to)].each do |group|
+        expect(@anagrams).to include(group)
+    end
+  end
+    
+end
+######################################################################################################################################

@@ -1,0 +1,96 @@
+Description of all tests
+######################################################################
+                            Part 1
+The original code implements a test on both the Dessert class and the
+inherited class JellyBean. The first test creates a new instance of 
+the Dessert class that sets name to "cake" and calories to "400". In
+this case, teh calories should return 400, the name should return 
+cake, it should be delicious and it should not be healthy (since the 
+calories are over 200). The next test makes a new instance of the 
+Dessert class that sets the name to "apple" and calories to "75". The
+instance of the class should be delicious and it should be healthy 
+(because it is under 200 calories). The next test tests that after the
+Dessert class is initialized, it can be set to a value. It sets calories
+to "80" and name to "ice cream", and tests those values to be valid.
+The last test goes into the JellyBean class, which is inherited
+from the Dessert Class. It tests for licorice vs. non-licorice.
+With the non-licorice test it sets the flavor to "vanilla". The 
+calories should be 5, the name should be "vanilla jelly bean" and
+it should be delicious. In the licorice case, it sets the flavor to
+"licorice" and it should not be delicious. 
+                            
+                            Part 2
+The additional test code tests additional issues that may insue from
+both the Dessert and JellyBean classes. The additional test for the
+Dessert class tests that no matter what the input for a new instance
+of the Dessert class is, it should always be delicious. For the 
+JellyBean class, it continues on the licorice test from the original
+code, except it tests for calories and the name also. The calories
+should equal "5" and the name should be "licorice jelly bean". 
+######################################################################
+
+Part 1. Original Test Code
+######################################################################
+require 'dessert'
+require 'byebug'
+require 'rspec/its'
+
+describe Dessert  do
+  describe 'cake' do
+    subject { Dessert.new('cake', 400) }
+    its(:calories) { should == 400 }
+    its(:name)     { should == 'cake' }
+    it { should be_delicious }
+    it { should_not be_healthy }
+  end
+  describe 'apple' do
+    subject { Dessert.new('apple', 75) }
+    it { should be_delicious }
+    it { should be_healthy }
+  end
+  describe 'can set' do
+    before(:each) { @dessert = Dessert.new('xxx', 0) }
+    it 'calories' do
+      @dessert.calories = 80
+      expect(@dessert.calories).to eq(80)
+    end
+    it 'name' do
+      @dessert.name = 'ice cream'
+      expect(@dessert.name).to eq('ice cream')
+    end
+  end
+end
+
+describe JellyBean do
+  describe 'when non-licorice' do
+    subject { JellyBean.new('vanilla') }
+    its(:calories) { should == 5 }
+    its(:name)     { should match /vanilla jelly bean/i }
+    it             { should be_delicious }
+  end
+  describe 'when licorice' do
+    subject { JellyBean.new('licorice') }
+    it { should_not be_delicious }
+  end
+end
+######################################################################
+
+Part 2. Additional Test Code
+######################################################################
+describe Dessert do
+  
+  describe 'can set' do
+    subject { Dessert.new('', '') }
+    it { should be_delicious }
+  end
+end
+
+describe JellyBean do
+  describe 'when licorice' do
+    subject { JellyBean.new('licorice') }
+    its(:calories) { should == 5 }
+    its(:name)     { should match /licorice jelly bean/i }
+    it { should_not be_delicious }
+  end
+end
+######################################################################
